@@ -19,7 +19,7 @@ jobs:
         run: |
           python -m venv venv
           source ./venv/bin/activate
-          pip install ddgs
+          pip install duckduckgo-search
           echo | ddgs news -k today -m 1 > index.html
 
       - name: Commit and Push changes
