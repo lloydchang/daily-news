@@ -1,0 +1,50 @@
+name: Daily News Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get today's news
+        id: get-news
+        run: |
+          TODAYS_NEWS=$(echo | ddgs news -k today -m 1)
+          echo "::set-output name=news::${TODAYS_NEWS}"
+
+      - name: Update index.html
+        id: update-html
+        run: |
+          echo "Attempting to update index.html with news: ${{$run.outputs.news}}" >> $GITHUB_STEP_SUMMARY
+          # Safer approach:  Append news to the existing file instead of full replacement.
+          echo "${{$run.outputs.news}}" >> index.html
+          echo "News appended to index.html" >> $GITHUB_STEP_SUMMARY
+
+      - name: Commit changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main # Or your desired branch
+          commit_message: "Automated news update"
+
+      - name: Aider (Optional - Consider the implications carefully)
+        if: always() # Run regardless of previous steps' success or failure for logging
+        run: |
+          echo "Attempting to use aider (this step is optional and may require additional setup)" >> $GITHUB_STEP_SUMMARY
+          echo "Aider command: aider --yes --model gemini/gemini-1.5-flash-latest --message \"update entire index.html with ${{$run.outputs.news}}\"" >> $GITHUB_STEP_SUMMARY
+          aider --yes --model gemini/gemini-1.5-flash-latest --message "update entire index.html with ${{$run.outputs.news}}" 2>&1 | tee aider_output.txt
+          echo "Aider output:" >> $GITHUB_STEP_SUMMARY
+          cat aider_output.txt >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Aider Output (Optional)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: aider-output
+          path: aider_output.txt
+
