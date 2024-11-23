@@ -1,6 +1,6 @@
-# File: .github/workflows/daily-news-update.yml
+# File: .github/workflows/update.yml
 
-name: Daily News Update and Commit
+name: Update
 
 on:
   # schedule:
@@ -8,11 +8,11 @@ on:
   workflow_dispatch: # Enables manual triggers
 
 jobs:
-  update-index:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Update index.html
         run: |
@@ -21,12 +21,15 @@ jobs:
           pip install duckduckgo-search
           echo | ddgs news -k today -m 1 > index.html
 
+      - name: Commit files
+        run: |
+          git commit -a -m "fix"
+
       - name: Commit and Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          commit_message: "Automated news update"
 
 permissions:
   contents: write  # Allow write access to repository contents
