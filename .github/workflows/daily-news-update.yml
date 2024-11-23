@@ -4,7 +4,7 @@ name: Daily News Update and Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    # - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch: # Enables manual triggers
 
 jobs:
