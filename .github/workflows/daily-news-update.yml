@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Update index.html
-        id: update-html
         run: |
           python -m venv venv
           source ./venv/bin/activate
@@ -26,5 +25,9 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main # Or your desired branch
-          message: "Automated news update"
+          branch: main
+          commit_message: "Automated news update"
+
+permissions:
+  contents: write  # Allow write access to repository contents
+  pull-requests: write  # Allow pull requests to be created if needed
