@@ -1,8 +1,11 @@
+# File: .github/workflows/daily-news-update.yml
+
 name: Daily News Update and Commit
 
 on:
   schedule:
     - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch: # Enables manual triggers
 
 jobs:
   update-index:
@@ -21,7 +24,6 @@ jobs:
         id: update-html
         run: |
           echo "Attempting to update index.html with news: ${{$run.outputs.news}}" >> $GITHUB_STEP_SUMMARY
-          # Safer approach: Append news to the existing file instead of full replacement.
           echo "${{$run.outputs.news}}" >> index.html
           echo "News appended to index.html" >> $GITHUB_STEP_SUMMARY
 
@@ -33,7 +35,7 @@ jobs:
           commit_message: "Automated news update"
 
       - name: Aider (Optional - Consider the implications carefully)
-        if: always() # Run regardless of previous steps' success or failure for logging
+        if: always()
         run: |
           echo "Attempting to use aider (this step is optional and may require additional setup)" >> $GITHUB_STEP_SUMMARY
           echo "Aider command: aider --yes --model gemini/gemini-1.5-flash-latest --message \"update entire index.html with ${{$run.outputs.news}}\"" >> $GITHUB_STEP_SUMMARY
