@@ -1,4 +1,4 @@
-name: Daily News Update
+name: Daily News Update and Commit
 
 on:
   schedule:
@@ -21,11 +21,11 @@ jobs:
         id: update-html
         run: |
           echo "Attempting to update index.html with news: ${{$run.outputs.news}}" >> $GITHUB_STEP_SUMMARY
-          # Safer approach:  Append news to the existing file instead of full replacement.
+          # Safer approach: Append news to the existing file instead of full replacement.
           echo "${{$run.outputs.news}}" >> index.html
           echo "News appended to index.html" >> $GITHUB_STEP_SUMMARY
 
-      - name: Commit changes
+      - name: Commit and Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -47,4 +47,3 @@ jobs:
         with:
           name: aider-output
           path: aider_output.txt
-
