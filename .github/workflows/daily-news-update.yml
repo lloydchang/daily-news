@@ -14,19 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get today's news
-        id: get-news
-        run: |
-          TODAYS_NEWS=$(echo | ddgs news -k today -m 1)
-          echo "::set-output name=news::${TODAYS_NEWS}"
-
       - name: Update index.html
         id: update-html
         run: |
-          echo "Attempting to update index.html with news: ${{$run.outputs.news}}"
-          # Safer approach: Append news to the existing file instead of full replacement.
-          echo "${{$run.outputs.news}}" >> index.html
-          echo "News appended to index.html"
+          echo | ddgs news -k today -m 1 > index.html
 
       - name: Commit and Push changes
         uses: ad-m/github-push-action@master
