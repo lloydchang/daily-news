@@ -14,12 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Update index.html
+      - name: Update content.txt
         run: |
           python -m venv venv
           source ./venv/bin/activate
           pip install duckduckgo-search
-          echo | ddgs news -k today -m 1 > index.html
+          echo | ddgs news -k today -m 1 > content.txt
 
       - name: Commit files
         run: |
