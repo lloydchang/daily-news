@@ -23,6 +23,8 @@ jobs:
 
       - name: Commit files
         run: |
+          git config --local user.email "lloydchang@gmail.com"
+          git config --local user.name "lloydchang"
           git commit -a -m "fix"
 
       - name: Commit and Push changes
