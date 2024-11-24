@@ -1,1 +1,10 @@
-
+1.	    ==============================================================================
+date        2024-11-21T23:59:00+00:00
+title       'Gladiator II' ending: Who lives, who dies and where's Maximus?
+body        Very few people are left standing by the end of "Gladiator II." The long
+            anticipated sequel to Ridley Scott's 2000 film "Gladiator"
+            premiered in theaters on Nov. 22, starring Paul Mescal as Lucius,
+            the exiled son of Maximus and Lucilla from the ...
+url         https://www.today.com/popculture/movies/gladiator-2-ending-explained-rcna181015
+image       https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1200x630_center,f_auto,q_auto:best/rockcms/2024-11/gladiator-II-mc-241120-03-d78680.jpg
+source      Today
