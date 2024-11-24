@@ -1,35 +1,71 @@
 <!-- File: index.html -->
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News</title>
     <style>
-        /* Style for wrapping content within the <pre> tag */
-        pre {
-            white-space: pre-wrap; /* Makes sure the text wraps */
-            word-wrap: break-word; /* Allows long words to break */
-            max-width: 100%; /* Prevents the <pre> from overflowing */
-            overflow-wrap: break-word; /* Ensures proper word breaking */
-            background-color: #f4f4f4; /* Optional: light background for readability */
-            padding: 10px; /* Optional: padding for better visual appearance */
-            border: 1px solid #ddd; /* Optional: a border around the pre element */
+        body {
+            font-family: sans-serif;
+        }
+        .news-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .news-item img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
     <h1>News</h1>
-    <pre id="file-content"></pre>
+    <div id="news-container"></div>
 
     <script>
-        // JavaScript to load the content of content.txt
-        fetch('content.json')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the content of the file into the <pre> tag
-                document.getElementById('file-content').textContent = data;
-            });
+        const newsData = [
+  {
+    "date": "2024-11-24T00:57:17+00:00",
+    "title": "Climate talks reach finance deal blasted as inadequate by developing nations",
+    "body": "BAKU, Azerbaijan — Negotiators from nearly 200 countries agreed early Sunday in a nonbinding commitment that wealthy nations would aim to provide at least $300 billion annually by 2035 to help",
+    "url": "https://www.msn.com/en-us/money/companies/climate-talks-reach-finance-deal-blasted-as-inadequate-by-developing-nations/ar-AA1uDDwF",
+    "image": "https://www.bing.com/th?id=OVFT.FVuQv7JnJaP0yFczLqQpry&pid=News",
+    "source": "The Washington Post"
+  }
+];
+
+        const newsContainer = document.getElementById('news-container');
+
+        newsData.forEach(item => {
+            const newsItem = document.createElement('div');
+            newsItem.classList.add('news-item');
+
+            const title = document.createElement('h2');
+            title.textContent = item.title;
+            newsItem.appendChild(title);
+
+            const image = document.createElement('img');
+            image.src = item.image;
+            image.alt = item.title;
+            newsItem.appendChild(image);
+
+            const body = document.createElement('p');
+            body.textContent = item.body;
+            newsItem.appendChild(body);
+
+            const source = document.createElement('p');
+            source.textContent = `Source: ${item.source}`;
+            newsItem.appendChild(source);
+
+            const link = document.createElement('a');
+            link.href = item.url;
+            link.textContent = 'Read More';
+            newsItem.appendChild(link);
+
+            newsContainer.appendChild(newsItem);
+        });
     </script>
 </body>
 </html>
