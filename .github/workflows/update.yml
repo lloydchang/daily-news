@@ -20,13 +20,13 @@ jobs:
           python -m venv venv
           source ./venv/bin/activate
           pip install duckduckgo-search
-          ddgs news -k news -m 1 -o content.json
+          ddgs news -k news -m 1 -o news.json
 
       - name: Commit files
         run: |
           git config --local user.email "lloydchang@gmail.com"
           git config --local user.name "lloydchang"
-          COMMIT_MESSAGE=$(grep title content.json | cut -d'"' -f4)
+          COMMIT_MESSAGE=$(grep title news.json | cut -d'"' -f4)
           git commit -a -m "$COMMIT_MESSAGE" || true
           # Append "|| true" to ignore all errors
           # Most common error is:
