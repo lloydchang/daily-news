@@ -19,7 +19,7 @@ jobs:
           python -m venv venv
           source ./venv/bin/activate
           pip install duckduckgo-search
-          ddgs news -k today -m 10 -o content.json
+          ddgs news -k news -m 10 -o content.json
 
       - name: Commit files
         run: |
