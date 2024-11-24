@@ -26,7 +26,8 @@ jobs:
         run: |
           git config --local user.email "lloydchang@gmail.com"
           git config --local user.name "lloydchang"
-          git commit -a -m news || true
+          COMMIT_MESSAGE=$(grep title content.json | cut -d'"' -f4)
+          git commit -a -m "$COMMIT_MESSAGE" || true
           # Append "|| true" to ignore all errors
           # Most common error is:
           #   nothing to commit, working tree clean
