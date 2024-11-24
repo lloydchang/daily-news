@@ -17,6 +17,7 @@
         .news-item img {
             max-width: 100%;
             height: auto;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -25,47 +26,65 @@
     <div id="news-container"></div>
 
     <script>
-        const newsData = [
-  {
-    "date": "2024-11-24T00:57:17+00:00",
-    "title": "Climate talks reach finance deal blasted as inadequate by developing nations",
-    "body": "BAKU, Azerbaijan — Negotiators from nearly 200 countries agreed early Sunday in a nonbinding commitment that wealthy nations would aim to provide at least $300 billion annually by 2035 to help",
-    "url": "https://www.msn.com/en-us/money/companies/climate-talks-reach-finance-deal-blasted-as-inadequate-by-developing-nations/ar-AA1uDDwF",
-    "image": "https://www.bing.com/th?id=OVFT.FVuQv7JnJaP0yFczLqQpry&pid=News",
-    "source": "The Washington Post"
-  }
-];
+        fetch('content.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(newsData => {
+                if (!Array.isArray(newsData)) {
+                    console.error("Error: content.json is not a JSON array.");
+                    const newsContainer = document.getElementById('news-container');
+                    newsContainer.innerHTML = "<p>Error loading news data.</p>";
+                    return;
+                }
 
-        const newsContainer = document.getElementById('news-container');
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = ''; // Clear previous content
 
-        newsData.forEach(item => {
-            const newsItem = document.createElement('div');
-            newsItem.classList.add('news-item');
+                newsData.forEach(item => {
+                    if (!item.title || !item.body || !item.source || !item.url) {
+                        console.warn("Skipping incomplete news item:", item);
+                        return;
+                    }
 
-            const title = document.createElement('h2');
-            title.textContent = item.title;
-            newsItem.appendChild(title);
+                    const newsItem = document.createElement('div');
+                    newsItem.classList.add('news-item');
 
-            const image = document.createElement('img');
-            image.src = item.image;
-            image.alt = item.title;
-            newsItem.appendChild(image);
+                    const titleElement = document.createElement('h2');
+                    titleElement.textContent = item.title;
+                    newsItem.appendChild(titleElement);
 
-            const body = document.createElement('p');
-            body.textContent = item.body;
-            newsItem.appendChild(body);
+                    if (item.image && item.image !== "") {
+                        const imageElement = document.createElement('img');
+                        imageElement.src = item.image;
+                        imageElement.alt = item.title;
+                        newsItem.appendChild(imageElement);
+                    }
 
-            const source = document.createElement('p');
-            source.textContent = `Source: ${item.source}`;
-            newsItem.appendChild(source);
+                    const bodyElement = document.createElement('p');
+                    bodyElement.textContent = item.body;
+                    newsItem.appendChild(bodyElement);
 
-            const link = document.createElement('a');
-            link.href = item.url;
-            link.textContent = 'Read More';
-            newsItem.appendChild(link);
+                    const sourceElement = document.createElement('p');
+                    sourceElement.textContent = `Source: ${item.source}`;
+                    newsItem.appendChild(sourceElement);
 
-            newsContainer.appendChild(newsItem);
-        });
+                    const linkElement = document.createElement('a');
+                    linkElement.href = item.url;
+                    linkElement.textContent = 'Read More';
+                    newsItem.appendChild(linkElement);
+
+                    newsContainer.appendChild(newsItem);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching or processing news data:", error);
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = `<p>Error loading news data: ${error.message}</p>`;
+            });
     </script>
 </body>
 </html>
