@@ -3,8 +3,8 @@
 name: Update
 
 on:
-  # schedule:
-    # - cron: '0 0 * * *' # Runs daily at midnight UTC
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch: # Enables manual triggers
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
           python -m venv venv
           source ./venv/bin/activate
           pip install duckduckgo-search
-          echo | ddgs news -k today -m 1 > content.txt
+          ddgs news -k today -m 10 -o content.json
 
       - name: Commit files
         run: |
