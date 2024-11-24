@@ -77,6 +77,10 @@
                     linkElement.textContent = 'Read More';
                     newsItem.appendChild(linkElement);
 
+                    const dateElement = document.createElement('p');
+                    dateElement.textContent = item.date;
+                    newsItem.appendChild(dateElement);
+
                     newsContainer.appendChild(newsItem);
                 });
             })
