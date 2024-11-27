@@ -24,6 +24,12 @@
 <body>
     <h1>News</h1>
     <div id="news-container"></div>
+    <hr>
+    <h1>Fiction</h1>
+    <div id="fiction-container"></div>
+    <hr>
+    <h1>Random</h1>
+    <div id="random-container"></div>
 
     <script>
         fetch('news.json')
@@ -132,7 +138,6 @@
                 const fictionContainer = document.getElementById('fiction-container');
                 fictionContainer.innerHTML = `<p>Error loading fiction data: ${error.message}</p>`;
             });
-
 
         // Fetching and appending content of random.html
         fetch('random.html')
