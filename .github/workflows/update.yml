@@ -20,7 +20,7 @@ jobs:
           python -m venv venv
           source ./venv/bin/activate
           python -m pip install -U aider-chat duckduckgo-search
-          'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
+          echo 'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
           ddgs news -k news -m 1 -o news.json
 
       - name: Commit files
