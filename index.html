@@ -89,6 +89,23 @@
                 const newsContainer = document.getElementById('news-container');
                 newsContainer.innerHTML = `<p>Error loading news data: ${error.message}</p>`;
             });
+
+        // Fetching and appending content of random.html
+        fetch('random.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(content => {
+                const randomContainer = document.createElement('div');
+                randomContainer.innerHTML = content;
+                document.body.appendChild(randomContainer); // Appends to the body
+            })
+            .catch(error => {
+                console.error("Error fetching random.html:", error);
+            });
     </script>
 </body>
 </html>
