@@ -14,5 +14,13 @@
     "url": "https://www.example.com/panda-harmonica",
     "image": "panda_harmonica.jpg",
     "source": "National Zoo"
+  },
+  {
+    "date": "2024-11-29T18:30:00+00:00",
+    "title": "The Journalist and the Olive Tree",
+    "body": "Amidst the rubble of Beirut, a young journalist named Layla found a single olive tree still standing, its branches laden with fruit.  The tree, a symbol of resilience, reminded her of the stories she had been reporting – stories of loss, but also of unexpected hope.  As the cease-fire held, Layla sat beneath the tree, sketching its silhouette, a quiet moment of peace in a city still recovering from war.",
+    "url": null,
+    "image": "olive_tree.jpg",
+    "source": "Fictional Account"
   }
 ]
