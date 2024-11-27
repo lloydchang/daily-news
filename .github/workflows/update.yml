@@ -19,7 +19,8 @@ jobs:
         run: |
           python -m venv venv
           source ./venv/bin/activate
-          pip install duckduckgo-search
+          python -m pip install -U duckduckgo-search
+          python -m pip install -U aider-chat
           ddgs news -k news -m 1 -o news.json
 
       - name: Commit files
@@ -31,6 +32,7 @@ jobs:
           # Append "|| true" to ignore all errors
           # Most common error is:
           #   nothing to commit, working tree clean
+          'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
 
       - name: Commit and Push changes
         uses: ad-m/github-push-action@master
