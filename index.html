@@ -99,6 +99,7 @@
                 return response.text();
             })
             .then(content => {
+                console.log("Random HTML content:", content);  // Log the fetched content
                 const randomContainer = document.createElement('div');
                 randomContainer.innerHTML = content;
                 document.body.appendChild(randomContainer); // Appends to the body
