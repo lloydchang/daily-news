@@ -19,8 +19,7 @@ jobs:
         run: |
           python -m venv venv
           source ./venv/bin/activate
-          python -m pip install -U duckduckgo-search
-          python -m pip install -U aider-chat
+          python -m pip install -U aider-chat duckduckgo-search
           ddgs news -k news -m 1 -o news.json
 
       - name: Commit files
