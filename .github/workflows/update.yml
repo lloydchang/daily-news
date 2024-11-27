@@ -25,7 +25,7 @@ jobs:
           ddgs news -k news -m 1 -o news.json
           git config --local user.email "lloydchang@gmail.com"
           git config --local user.name "lloydchang"
-          echo 'Write a fictional story into fiction.json based on based on news.json and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
+          echo 'Write a fictional story into fiction.json based on news.json and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
           echo 'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
 
       - name: Commit files
