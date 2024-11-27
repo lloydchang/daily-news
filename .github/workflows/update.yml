@@ -19,18 +19,18 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python -m venv venv
-          source ./venv/bin/activate
-          python -m pip install -U aider-chat duckduckgo-search
-          ddgs news -k news -m 1 -o news.json
-          git config --local user.email "lloydchang@gmail.com"
-          git config --local user.name "lloydchang"
-          echo 'edit fiction.json with a new title and new story based on news.json and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
-          echo 'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024
+          python -m venv venv || true
+          source ./venv/bin/activate || true
+          python -m pip install -U aider-chat duckduckgo-search || true
+          ddgs news -k news -m 1 -o news.json || true
+          git config --local user.email "lloydchang@gmail.com" || true
+          git config --local user.name "lloydchang" || true
+          echo 'edit fiction.json with a new title and new story based on news.json' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
+          echo 'edit random.html randomly and exit' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
 
       - name: Commit files
         run: |
-          COMMIT_MESSAGE=$(grep title news.json | cut -d'"' -f4)
+          COMMIT_MESSAGE=$(grep title news.json | cut -d'"' -f4) || true
           git commit -a -m "$COMMIT_MESSAGE" || true
           # Append "|| true" to ignore all errors
           # Most common error is:
