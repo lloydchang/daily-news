@@ -90,6 +90,50 @@
                 newsContainer.innerHTML = `<p>Error loading news data: ${error.message}</p>`;
             });
 
+        // Fetch and render fiction data
+        fetch('fiction.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(fictionData => {
+                // Validate the structure of the fictionData object
+                if (!fictionData.title || !fictionData.story) {
+                    console.error("Error: fiction.json does not contain the required properties.");
+                    const fictionContainer = document.getElementById('fiction-container');
+                    fictionContainer.innerHTML = "<p>Error loading fiction data.</p>";
+                    return;
+                }
+
+                const fictionContainer = document.getElementById('fiction-container');
+                fictionContainer.innerHTML = ''; // Clear previous content
+
+                // Create fiction item container
+                const fictionItem = document.createElement('div');
+                fictionItem.classList.add('fiction-item');
+
+                // Add title
+                const titleElement = document.createElement('h2');
+                titleElement.textContent = fictionData.title;
+                fictionItem.appendChild(titleElement);
+
+                // Add story
+                const storyElement = document.createElement('p');
+                storyElement.textContent = fictionData.story;
+                fictionItem.appendChild(storyElement);
+
+                // Append item to the container
+                fictionContainer.appendChild(fictionItem);
+            })
+            .catch(error => {
+                console.error("Error fetching or processing fiction data:", error);
+                const fictionContainer = document.getElementById('fiction-container');
+                fictionContainer.innerHTML = `<p>Error loading fiction data: ${error.message}</p>`;
+            });
+
+
         // Fetching and appending content of random.html
         fetch('random.html')
             .then(response => {
