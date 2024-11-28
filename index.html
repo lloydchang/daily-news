@@ -28,10 +28,14 @@
     <h1>Fiction</h1>
     <div id="fiction-container"></div>
     <hr>
+    <h1>Images</h1>
+    <div id="images-container"></div>
+    <hr>
     <h1>Random</h1>
     <div id="random-container"></div>
 
     <script>
+        // Fetch and render news data
         fetch('news.json')
             .then(response => {
                 if (!response.ok) {
@@ -139,7 +143,71 @@
                 fictionContainer.innerHTML = `<p>Error loading fiction data: ${error.message}</p>`;
             });
 
-        // Fetching and appending content of random.html
+        // Fetch and render images
+        fetch('images.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(imagesData => {
+                if (!Array.isArray(imagesData)) {
+                    console.error("Error: images.json is not a JSON array.");
+                    const imagesContainer = document.getElementById('images-container');
+                    imagesContainer.innerHTML = "<p>Error loading images data.</p>";
+                    return;
+                }
+
+                const imagesContainer = document.getElementById('images-container');
+                imagesContainer.innerHTML = ''; // Clear previous content
+
+                imagesData.forEach(item => {
+                    if (!item.title || !item.image || !item.url || !item.source) {
+                        console.warn("Skipping incomplete image item:", item);
+                        return;
+                    }
+
+                    const imageItem = document.createElement('div');
+                    imageItem.classList.add('image-item');
+
+                    const titleElement = document.createElement('h2');
+                    titleElement.textContent = item.title;
+                    imageItem.appendChild(titleElement);
+
+                    if (item.thumbnail && item.thumbnail !== "") {
+                        const thumbnailElement = document.createElement('img');
+                        thumbnailElement.src = item.thumbnail;
+                        thumbnailElement.alt = item.title;
+                        thumbnailElement.style.width = '150px'; // Adjust size if needed
+                        imageItem.appendChild(thumbnailElement);
+                    }
+
+                    const imageElement = document.createElement('img');
+                    imageElement.src = item.image;
+                    imageElement.alt = item.title;
+                    imageElement.style.width = '100%'; // Makes the image responsive
+                    imageItem.appendChild(imageElement);
+
+                    const sourceElement = document.createElement('p');
+                    sourceElement.textContent = `Source: ${item.source}`;
+                    imageItem.appendChild(sourceElement);
+
+                    const linkElement = document.createElement('a');
+                    linkElement.href = item.url;
+                    linkElement.textContent = 'Read More';
+                    imageItem.appendChild(linkElement);
+
+                    imagesContainer.appendChild(imageItem);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching or processing images data:", error);
+                const imagesContainer = document.getElementById('images-container');
+                imagesContainer.innerHTML = `<p>Error loading images data: ${error.message}</p>`;
+            });
+
+            // Fetching and appending content of random.html
         fetch('random.html')
             .then(response => {
                 if (!response.ok) {

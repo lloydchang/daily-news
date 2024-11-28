@@ -26,6 +26,7 @@ jobs:
           git config --local user.email "lloydchang@gmail.com" || true
           git config --local user.name "lloydchang" || true
           echo 'write a fictional title and story into fiction.json based on news.json' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
+          ddgs images -k "$(grep title fiction.json | cut -d'"' -f4)" -m 1 -o images.json || true
           echo 'edit random.html randomly' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
 
       - name: Commit files
