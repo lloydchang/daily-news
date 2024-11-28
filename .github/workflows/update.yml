@@ -25,17 +25,13 @@ jobs:
           ddgs news -k news -m 1 -o news.json || true
           git config --local user.email "lloydchang@gmail.com" || true
           git config --local user.name "lloydchang" || true
-          echo 'write a fictional title and story into fiction.json based on news.json' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
-          ddgs images -k "$(grep title fiction.json | cut -d'"' -f4)" -m 1 -o images.json || true
-          echo 'edit random.html randomly' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
-
-      - name: Commit files
-        run: |
           COMMIT_MESSAGE=$(grep title news.json | cut -d'"' -f4) || true
           git commit -a -m "$COMMIT_MESSAGE" || true
-          # Append "|| true" to ignore all errors
-          # Most common error is:
-          #   nothing to commit, working tree clean
+          echo 'write a fictional title and story into fiction.json based on news.json' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
+          ddgs images -k "$(grep title fiction.json | cut -d'"' -f4)" -m 1 -o images.json || true
+          COMMIT_MESSAGE=$(grep title images.json | cut -d'"' -f4) || true
+          git commit -a -m "$COMMIT_MESSAGE" || true
+          echo 'edit random.html randomly' | aider --analytics-disable --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
 
       - name: Commit and Push changes
         uses: ad-m/github-push-action@master
