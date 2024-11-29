@@ -21,7 +21,11 @@
         }
     </style>
 </head>
+
 <body>
+    <label for="voice-select"><b>Choose Voice:</label>
+    <select id="voice-select"></select>
+    <hr>
     <h1>News</h1>
     <button onclick="readSection('news-container')">Read News</button>
     <div id="news-container"></div>
@@ -39,6 +43,33 @@
     <div id="random-container"></div>
 
     <script>
+        let voices = [];
+        let selectedVoice;
+
+        // Fetch and populate voices
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voice-select');
+            voiceSelect.innerHTML = ''; // Clear the dropdown
+
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang}) ${voice.default ? ' - Default' : ''}`;
+                voiceSelect.appendChild(option);
+            });
+
+            // Set default voice
+            if (voices.length > 0) {
+                selectedVoice = voices[0];
+            }
+        }
+
+        // Set the selected voice
+        document.getElementById('voice-select').addEventListener('change', (event) => {
+            selectedVoice = voices[event.target.value];
+        });
+
         // Text-to-Speech Functionality
         let speechSynthesisUtterance;
 
@@ -55,6 +86,13 @@
             // Prepare text for speech
             const text = section.textContent.trim();
             speechSynthesisUtterance = new SpeechSynthesisUtterance(text);
+
+            // Set the selected voice
+            if (selectedVoice) {
+                speechSynthesisUtterance.voice = selectedVoice;
+            }
+
+            // Set speech rate and pitch
             speechSynthesisUtterance.rate = 1; // Speed of speech
             speechSynthesisUtterance.pitch = 1; // Pitch of the voice
 
@@ -62,8 +100,11 @@
             window.speechSynthesis.speak(speechSynthesisUtterance);
         }
 
-        function stopReading() {
-            window.speechSynthesis.cancel();
+        // Load voices when the page loads and when they change
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        } else {
+            loadVoices();
         }
 
         // Fetch and render news data
