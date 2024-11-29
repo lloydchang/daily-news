@@ -247,13 +247,13 @@
                     titleElement.textContent = item.title;
                     imageItem.appendChild(titleElement);
 
-                    if (item.thumbnail && item.thumbnail !== "") {
-                        const thumbnailElement = document.createElement('img');
-                        thumbnailElement.src = item.thumbnail;
-                        thumbnailElement.alt = item.title;
-                        thumbnailElement.style.width = '150px'; // Adjust size if needed
-                        imageItem.appendChild(thumbnailElement);
-                    }
+                    // if (item.thumbnail && item.thumbnail !== "") {
+                    //     const thumbnailElement = document.createElement('img');
+                    //     thumbnailElement.src = item.thumbnail;
+                    //     thumbnailElement.alt = item.title;
+                    //     thumbnailElement.style.width = '10%'; // Adjust size if needed
+                    //     imageItem.appendChild(thumbnailElement);
+                    // }
 
                     const imageElement = document.createElement('img');
                     imageElement.src = item.image;
