@@ -23,18 +23,49 @@
 </head>
 <body>
     <h1>News</h1>
+    <button onclick="readSection('news-container')">Read News</button>
     <div id="news-container"></div>
     <hr>
     <h1>Fiction</h1>
+    <button onclick="readSection('fiction-container')">Read Fiction</button>
     <div id="fiction-container"></div>
     <hr>
     <h1>Images</h1>
+    <button onclick="readSection('images-container')">Read Images</button>
     <div id="images-container"></div>
     <hr>
     <h1>Random</h1>
+    <button onclick="readSection('random-container')">Read Random</button>
     <div id="random-container"></div>
 
     <script>
+        // Text-to-Speech Functionality
+        let speechSynthesisUtterance;
+
+        function readSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section || !section.textContent.trim()) {
+                alert('No content available to read.');
+                return;
+            }
+
+            // Stop any ongoing speech
+            window.speechSynthesis.cancel();
+
+            // Prepare text for speech
+            const text = section.textContent.trim();
+            speechSynthesisUtterance = new SpeechSynthesisUtterance(text);
+            speechSynthesisUtterance.rate = 1; // Speed of speech
+            speechSynthesisUtterance.pitch = 1; // Pitch of the voice
+
+            // Speak the text
+            window.speechSynthesis.speak(speechSynthesisUtterance);
+        }
+
+        function stopReading() {
+            window.speechSynthesis.cancel();
+        }
+
         // Fetch and render news data
         fetch('news.json')
             .then(response => {
