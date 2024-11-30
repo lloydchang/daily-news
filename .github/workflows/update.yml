@@ -31,7 +31,7 @@ jobs:
           ddgs images -k "$(grep title fiction.json | cut -d'"' -f4)" -m 1 -o images.json || true
           COMMIT_MESSAGE=$(grep title images.json | cut -d'"' -f4) || true
           git commit -a -m "$COMMIT_MESSAGE" || true
-          echo 'edit random.html randomly' | aider --analytics-disable --no-attribute-author --no-attribute-committer --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
+          echo 'edit random.html randomly and exit' | aider --analytics-disable --no-attribute-author --no-attribute-committer --yes --model gemini/gemini-1.5-flash-latest --map-tokens 1024 || true
 
       - name: Commit and Push changes
         uses: ad-m/github-push-action@master
